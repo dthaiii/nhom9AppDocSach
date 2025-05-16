@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:theme="@style/Base.Theme.Nhom9AppDocSach."
         android:name=".MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -24,6 +25,7 @@
             android:exported="false" />
         <activity
             android:name=".Activities.FavoriteBookActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".Activities.Profile_Activity"
@@ -39,6 +41,7 @@
             android:exported="false" />
         <activity
             android:name=".Activities.PdfEditActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".Activities.PdfListAdminActivity"
@@ -57,6 +60,7 @@
             android:exported="false" />
         <activity
             android:name=".Activities.LoginActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".Activities.SignActivity"

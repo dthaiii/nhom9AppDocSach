@@ -4,5 +4,5 @@ import android.app.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class PdfListUserActivity extends AppCompatActivity {
+public class PdfEditActivity extends AppCompatActivity {
 }
