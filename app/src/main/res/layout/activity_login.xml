@@ -12,14 +12,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:context=".Activities.LoginActivity"
-        android:background="#">
+        android:background="">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="start"
             android:orientation="vertical">
-
             <TextView
                 android:paddingTop="@android:dimen/app_icon_size"
                 android:layout_width="match_parent"
@@ -69,27 +68,18 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtpass"
+                        android:layout_height="match_parent"
                         android:layout_width="match_parent"
                         android:paddingLeft="10dp"
                         android:hint="Mật khẩu"
-                        android:layout_height="match_parent"
                         android:background="@drawable/bg_text"
                         android:inputType="textPassword" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/txtforgot"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="50dp"
-                android:gravity="end"
-                android:padding="10dp"
-                android:text="Quên mật khẩu" />
-
             <RelativeLayout
+                android:paddingTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -99,15 +89,14 @@
                     android:id="@+id/btnlog"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="50dp"
                     android:layout_marginRight="50dp"
                     android:background="@drawable/button1"
                     android:backgroundTint="@color/button_color"
                     android:gravity="center"
                     android:text="Đăng Nhập"
-                    android:textColor="@color/white"
-                    />
+                    android:textColor="@color/white" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -130,9 +119,10 @@
                         android:textColor="@color/black"
                         android:textSize="15dp" />
 
-                    <TextView
+                    <Button
                         android:id="@+id/btnsign"
                         android:layout_width="wrap_content"
+                        android:textColor="@color/white"
                         android:layout_height="wrap_content"
                         android:clickable="true"
                         android:focusable="true"
