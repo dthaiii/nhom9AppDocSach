@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".FragmentAdmin.BookFragmentAdmin">
+
+    <RelativeLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="-45dp"
+        android:background="@drawable/bg_book">
+
+        <ImageButton
+            android:id="@+id/btnback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="10dp"
+            android:background="@color/main_color"
+            android:padding="10dp"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/back"
+            android:contentDescription="Back button" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sửa Sách"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentBottom="true"
+            android:paddingBottom="50dp"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:gravity="center_horizontal"/>
+
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="210dp"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txttenbook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintEnabled="false"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp">
+
+                <EditText
+                    android:id="@+id/edttenbook"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_text"
+                    android:backgroundTint="@color/white"
+                    android:drawableStart="@drawable/sharp_picture_as_pdf_24"
+                    android:drawablePadding="10dp"
+                    android:hint="Tên Sách"
+                    android:textSize="16sp"
+                    android:inputType="textCapSentences"
+                    android:padding="10dp"
+                    android:drawableTint="@color/black"
+                    android:textColor="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtmota"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintEnabled="false"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/txttenbook">
+
+                <EditText
+                    android:id="@+id/edtmota"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="150dp"
+                    android:maxHeight="250dp"
+                    android:background="@drawable/bg_text"
+                    android:backgroundTint="@color/white"
+                    android:drawableLeft="@drawable/sharp_picture_as_pdf_24"
+                    android:drawablePadding="10dp"
+                    android:hint="Mô tả"
+                    android:textSize="16sp"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:gravity="top|start"
+                    android:padding="10dp"
+                    android:drawableTint="@color/black"
+                    android:textColor="@color/black"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/edttheloai"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtmota"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_text"
+                android:drawableStart="@drawable/book"
+                android:drawableTint="@color/black"
+                android:drawableEnd="@drawable/sharp_arrow_drop_down_24"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:hint="Thể loại"
+                android:padding="10dp"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/txtanhbia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ảnh bìa"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:drawableTint="@color/black"
+                android:textColor="@color/black"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginTop="10dp"
+                android:drawableLeft="@drawable/baseline_camera_alt_24"
+                android:drawablePadding="10dp"
+                android:layout_below="@+id/edttheloai"/>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/CVImage"
+                android:layout_below="@+id/txtanhbia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                app:cardCornerRadius="10dp">
+                <ImageView
+                    android:id="@+id/image_thumb"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    />
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/btnupdate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/CVImage"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button1"
+                android:backgroundTint="@color/main_color"
+                android:text="Sửa"
+                android:textStyle="bold"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                app:backgroundTint="@null"/>
+
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>
