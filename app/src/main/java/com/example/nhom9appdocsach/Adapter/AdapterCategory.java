@@ -21,8 +21,7 @@ import com.example.nhom9appdocsach.Filter.FilterCategory;
 import com.example.nhom9appdocsach.Model.Category;
 import com.example.nhom9appdocsach.Activities.PdfListAdminActivity;
 import com.example.nhom9appdocsach.databinding.RowCategoryBinding;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,7 +48,7 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.Holder
 
     @Override
     public void onBindViewHolder(@NonNull HolderCategory holder, int position) {
-        ModelCategory modelCatagory = catagoryArrayList.get(position);
+        Category modelCatagory = catagoryArrayList.get(position);
         String id = modelCatagory.getId();
         String category = modelCatagory.getCategory();
         String uid = modelCatagory.getUid();
@@ -90,7 +89,7 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.Holder
         });
     }
 
-    private void deleteCategory(ModelCategory modelCategory, HolderCategory holder) {
+    private void deleteCategory(Category modelCategory, HolderCategory holder) {
         String categoryId = modelCategory.getId();
         String category = modelCategory.getCategory();
 
