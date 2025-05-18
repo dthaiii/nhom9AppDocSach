@@ -61,22 +61,18 @@
         <activity
             android:name=".Activities.LoginActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
-            android:name=".Activities.SignActivity"
+            android:name=".Activities.RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.MainAdminActivity"
             android:exported="false" />
-        <activity
-            android:name=".Activities.HelloActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

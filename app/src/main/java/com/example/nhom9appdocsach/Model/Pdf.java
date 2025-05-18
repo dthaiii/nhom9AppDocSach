@@ -1,23 +1,41 @@
 package com.example.nhom9appdocsach.Model;
 
 public class Pdf {
-    String uid, id, title, description, url, categoryId;
-    long timestamp, viewsCount, downloadsCount;
+    String uid, id, title, description, url, categoryId, imageThumb;
+    long timestamp, viewsCount, downloadsCount, lastReadPage;
     boolean favorite;
     public Pdf(){
 
     }
-    public Pdf(String id, String uid, String title, String description, String url, String categoryId, long timestamp, long viewsCount, long downloadsCount, boolean favorite){
+    public Pdf(String id, String uid, String title, String description, String url, String categoryId, String imageThumb, long timestamp, long viewsCount, long downloadsCount, long lastReadPage, boolean favorite){
         this.id = id;
         this.uid = uid;
         this.title = title;
         this.description = description;
         this.url = url;
         this.categoryId = categoryId;
+        this.imageThumb = imageThumb;
         this.timestamp = timestamp;
         this.viewsCount = viewsCount;
         this.downloadsCount = downloadsCount;
+        this.lastReadPage = lastReadPage;
         this.favorite = favorite;
+    }
+
+    public long getLastReadPage() {
+        return lastReadPage;
+    }
+
+    public void setLastReadPage(long lastReadPage) {
+        this.lastReadPage = lastReadPage;
+    }
+
+    public String getImageThumb() {
+        return imageThumb;
+    }
+
+    public void setImageThumb(String imageThumb) {
+        this.imageThumb = imageThumb;
     }
 
     public boolean isFavorite() {

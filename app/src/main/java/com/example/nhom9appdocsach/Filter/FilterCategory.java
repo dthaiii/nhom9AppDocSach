@@ -42,7 +42,7 @@ public class FilterCategory extends Filter {
     @Override
 //    gán danh sách kết quả lọc cho adapter, cập nhật lại giao diện RecylerView
     protected void publishResults(CharSequence constraint, FilterResults results) {
-        adapterCategory.categoryArrayList = (ArrayList<Category>) results.values;
+        adapterCategory.catagoryArrayList = (ArrayList<Category>) results.values;
         adapterCategory.notifyDataSetChanged();
 
     }

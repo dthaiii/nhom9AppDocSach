@@ -15,7 +15,8 @@
         />
     <item
         android:id="@+id/btnbimat"
-        android:title="" />
+        android:title=""
+        />
     <item
         android:id="@+id/btnnoti"
         android:title="Thông báo"

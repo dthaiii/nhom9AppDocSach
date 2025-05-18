@@ -22,7 +22,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:background=""
                 app:backgroundTint="@null"
                 android:padding="5dp"
                 android:src="@drawable/sharp_close_24" />
@@ -71,7 +70,7 @@
                 android:hint="Nhập bình luận..."
                 android:padding="10dp"
                 android:textColor="@color/black"
-                android:backgroundTint=""/>
+               />
             <ImageButton
                 android:id="@+id/btncmt"
                 android:layout_width="match_parent"

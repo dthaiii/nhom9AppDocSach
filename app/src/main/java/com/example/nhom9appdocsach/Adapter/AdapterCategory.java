@@ -1,10 +1,10 @@
 package com.example.nhom9appdocsach.Adapter;
 
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +17,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.nhom9appdocsach.Database.DatabaseHandel;
 import com.example.nhom9appdocsach.Filter.FilterCategory;
 import com.example.nhom9appdocsach.Model.Category;
 import com.example.nhom9appdocsach.Activities.PdfListAdminActivity;
 import com.example.nhom9appdocsach.databinding.RowCategoryBinding;
-
+import com.example.nhom9appdocsach.Database.DatabaseHandel; // Thêm dòng này
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.HolderCategory> implements Filterable {
 
@@ -65,7 +65,7 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.Holder
                         .setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                deleteCategory(modelCatagory, holder);
+                                deleteCategory(modelCatagory);
                             }
                         })
                         .setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
@@ -89,91 +89,35 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.Holder
         });
     }
 
-    private void deleteCategory(Category modelCategory, HolderCategory holder) {
+    private void deleteCategory(Category modelCategory) {
         String categoryId = modelCategory.getId();
         String category = modelCategory.getCategory();
 
-        // Không cho phép xóa thể loại "Khác"
         if (category.equals("Khác")) {
             Toast.makeText(context, "Không thể xóa thể loại 'Khác'", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        DatabaseReference categoriesRef = FirebaseDatabase.getInstance().getReference("Categories");
-        DatabaseReference booksRef = FirebaseDatabase.getInstance().getReference("Books");
+        DatabaseHandel dbHelper = new DatabaseHandel(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        // Tìm categoryId của thể loại "Khác"
-        categoriesRef.orderByChild("category").equalTo("Khác")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String otherId = "";
-                        // Tìm id của category "Khác"
-                        for (DataSnapshot ds : snapshot.getChildren()) {
-                            otherId = ds.child("id").getValue(String.class);
-                            break;
-                        }
+        // Kiểm tra thể loại "Khác"
+        String otherId = dbHelper.getCategoryByName("Khác");
 
-                        // Nếu chưa có thể loại "Khác", tạo mới
-                        if (otherId.isEmpty()) {
-                            otherId = "" + System.currentTimeMillis();
-                            HashMap<String, Object> hashMap = new HashMap<>();
-                            hashMap.put("id", otherId);
-                            hashMap.put("category", "Khác");
-                            hashMap.put("timestamp", System.currentTimeMillis());
-                            hashMap.put("uid", modelCategory.getUid());
 
-                            categoriesRef.child(otherId).setValue(hashMap);
-                        }
+        // Cập nhật tất cả sách thuộc categoryId này sang "Khác"
+        dbHelper.updateBooksCategory(categoryId, otherId);
 
-                        // Lấy tất cả sách thuộc thể loại cũ
-                        final String finalOtherId = otherId;
-                        booksRef.orderByChild("categoryId").equalTo(categoryId)
-                                .addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        for (DataSnapshot ds : snapshot.getChildren()) {
-                                            // Cập nhật categoryId của từng cuốn sách
-                                            String bookId = ds.getKey();
-                                            booksRef.child(bookId).child("categoryId").setValue(finalOtherId);
-                                        }
+        // Xóa thể loại khỏi bảng Category
+        dbHelper.deleteCategory(categoryId);
 
-                                        // Sau khi chuyển xong tất cả sách, xóa thể loại cũ
-                                        categoriesRef.child(categoryId).removeValue()
-                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void unused) {
-                                                        Toast.makeText(context,
-                                                                "Đã xóa thể loại và chuyển sách sang thể loại 'Khác'",
-                                                                Toast.LENGTH_SHORT).show();
-                                                    }
-                                                })
-                                                .addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Toast.makeText(context,
-                                                                "" + e.getMessage(),
-                                                                Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
-                                    }
+        // Cập nhật lại danh sách thể loại hiển thị
+        catagoryArrayList.remove(modelCategory);
+        notifyDataSetChanged();
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-                                        Toast.makeText(context,
-                                                "" + error.getMessage(),
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                    }
+        Toast.makeText(context, "Đã xóa thể loại và chuyển sách sang thể loại 'Khác'", Toast.LENGTH_SHORT).show();
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(context,
-                                "" + error.getMessage(),
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
+        db.close();
     }
 
     @Override

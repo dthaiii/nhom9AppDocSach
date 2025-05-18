@@ -23,7 +23,6 @@
             android:layout_marginStart="10dp"
             android:padding="10dp"
             android:layout_alignParentStart="true"
-            android:background=""
             android:src="@drawable/back"
             android:contentDescription="Back button" />
 
@@ -34,7 +33,6 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="50dp"
             android:layout_marginEnd="10dp"
-            android:background=""
             android:contentDescription="Attach file"
             android:padding="10dp"
             android:src="@drawable/sharp_attach_file_24"
