@@ -4,12 +4,15 @@
     <color name="gray">#00000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="main_color">#FFFFFFFF</color>
-    <color name="grey">#aaa</color>
     <color name="darkgrey">#ff424242</color>
     <color name="comment">#59000000</color>
     <color name="red">#FF0000</color>
     <color name="green">#00FF00</color>
     <color name="blue">#0000FF</color>
-    <color name="button_color">#006400</color>
+    <color name="wattpad_orange">#FF500A</color>
+    <color name="grey_light">#F5F6FA</color>
+    <color name="grey_text">#6D6D6D</color>
+    <color name="button_color">#FF500A</color> <!-- Nút chủ đạo -->
+    <color name="grey">#F5F6FA</color> <!-- Dùng cho nền -->
 
 </resources>
