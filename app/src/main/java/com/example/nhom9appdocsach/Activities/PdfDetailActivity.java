@@ -29,6 +29,7 @@ public class PdfDetailActivity extends AppCompatActivity {
     private static final String TAG_DOWNLOAD = "DOWNLOAD_TAG";
     private ActivityPdfDetailBinding binding;
     String bookId, bookTitle, bookUrl;
+    long        timestamp;
     boolean isInMyFavorite = false;
     private boolean isDataLoading = false;
     private boolean isAdded = false;
@@ -45,7 +46,7 @@ public class PdfDetailActivity extends AppCompatActivity {
 
         dbHelper = new DatabaseHandel(this);
 
-        // Lấy uid từ SharedPreferences (giả định đã lưu khi đăng nhập)
+        // Lấy uid từ SharedPreferences
         uid = getSharedPreferences("UserPrefs", MODE_PRIVATE).getString("uid", null);
 
         Intent intent = getIntent();
@@ -56,7 +57,7 @@ public class PdfDetailActivity extends AppCompatActivity {
         loadBookDetails();
         loadComments();
         setupSwipeRefresh();
-        MyApplication.incrementBookViewCount( this ,bookId);
+        MyApplication.incrementBookViewCount(this, bookId);
 
         binding.btnback.setOnClickListener(v -> onBackPressed());
         binding.btnread.setOnClickListener(v -> {
@@ -76,9 +77,9 @@ public class PdfDetailActivity extends AppCompatActivity {
         });
         binding.btnfavor.setOnClickListener(v -> {
             if (isInMyFavorite) {
-                MyApplication.removeFromFavorite(PdfDetailActivity.this, bookId);
+                MyApplication.removeFromFavorite(this, bookId, uid);
             } else {
-                MyApplication.addToFavorite(PdfDetailActivity.this, bookId);
+                MyApplication.addToFavorite(this, bookId, uid);
             }
             // Cập nhật lại trạng thái yêu thích sau khi thao tác
             checkIsFavorite();
@@ -129,13 +130,14 @@ public class PdfDetailActivity extends AppCompatActivity {
     private void loadBookDetails() {
         Book book = dbHelper.getBookById(bookId);
         if (book == null) return;
+        timestamp = book.getTimestamp();
         bookTitle = book.getTitle();
         bookUrl = book.getUrl();
 
         binding.btnsave.setVisibility(View.VISIBLE);
 
-        String date = MyApplication.formatTimestamp(book.getTimestamp());
-        MyApplication.loadCategory(this ,book.getCategoryId(), binding.txtcategory);
+        String date = MyApplication.formatTimestamp(timestamp);
+        MyApplication.loadCategory(this, book.getCategoryId(), binding.txtcategory);
         MyApplication.loadImageFromUrl(this, bookId, binding.ImageThumb, binding.progressBar);
         MyApplication.LoadPdfSize(this, bookUrl, bookId, binding.txtsize);
         binding.txttitle.setText(bookTitle);

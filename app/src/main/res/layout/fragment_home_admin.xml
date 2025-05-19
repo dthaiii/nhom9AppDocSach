@@ -35,9 +35,11 @@
                         android:gravity="center"
                         android:paddingLeft="35dp"
                         android:text="Chào"
+                        android:textColor="@color/black"
                         android:textSize="18sp" />
 
                     <TextView
+                        android:textColor="@color/black"
                         android:id="@+id/txtname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -52,6 +54,7 @@
                     android:layout_height="wrap_content"
                     android:text="Admin"
                     android:drawablePadding="8dp"
+                    android:textColor="@color/black"
                     android:textSize="16sp"
                     android:drawableLeft="@drawable/baseline_person_24"
                     android:paddingLeft="35dp"/>
@@ -88,6 +91,7 @@
                 <TextView
                     android:id="@+id/edttruyen2"
                     android:layout_marginTop="0dp"
+                    android:textColor="@color/black"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
                     android:layout_width="wrap_content"
@@ -102,6 +106,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Xem thêm"
+                    android:textColor="@color/black"
                     />
             </LinearLayout>
             <androidx.recyclerview.widget.RecyclerView

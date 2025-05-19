@@ -26,11 +26,13 @@
                     android:id="@+id/txtname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
                     style="@style/TextAppearance.MaterialComponents.Headline6"
                     android:text="Name"/>
                 <TextView
                     android:id="@+id/txtdate"
                     android:layout_width="wrap_content"
+                    android:textColor="@color/black"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:text="dd/MM/yyyy"/>
@@ -38,6 +40,7 @@
             <TextView
                 android:id="@+id/txtcomment"
                 android:layout_width="match_parent"
+                android:textColor="@color/black"
                 android:layout_height="wrap_content"
                 android:text="comment" />
         </LinearLayout>

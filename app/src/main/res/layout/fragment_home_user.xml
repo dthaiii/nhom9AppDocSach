@@ -32,6 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Chào"
+                    android:textColor="@color/black"
                     android:textSize="18sp"
                     android:paddingLeft="35dp"
                     android:gravity="center"/>
@@ -41,6 +42,7 @@
                     android:layout_height="wrap_content"
                     android:text="Name"
                     android:paddingLeft="10dp"
+                    android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:gravity="center"/>
@@ -48,6 +50,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
                     android:text="MEMBER"
                     android:drawablePadding="10dp"
                     android:textSize="16sp"
@@ -69,6 +72,7 @@
                         android:layout_height="match_parent"
                         app:iss_delay="2000"
                         app:iss_period="2000"
+                        android:background="@color/grey"
                         app:iss_text_align="CENTER"
                         app:iss_auto_cycle="true"/>
 
@@ -91,6 +95,7 @@
                     android:layout_height="wrap_content"
                     android:text="Đề cử"
                     android:layout_marginBottom="10dp"
+                    android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textSize="24sp"/>
                 <TextView
@@ -98,6 +103,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
                     android:text="Xem thêm"
                     />
             </LinearLayout>

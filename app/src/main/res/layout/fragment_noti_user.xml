@@ -18,21 +18,22 @@
             android:gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="App Đọc Sách"
+            android:text="Thông báo"
             android:textSize="27dp"
             android:textStyle="bold"
             android:layout_centerInParent="true"
             android:textColor="@color/black" />
 
     </RelativeLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notificationsRv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbarRLV"
         android:layout_marginTop="10dp"
-        tools:listitem="@layout/row_noti"
+        android:layout_marginBottom="96dp"
         android:padding="5dp"
-        android:layout_marginBottom="96dp"/>
+        tools:listitem="@layout/row_noti" />
 
 </RelativeLayout>
