@@ -2,6 +2,7 @@ package com.example.nhom9appdocsach.FragmentUser;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -134,12 +135,18 @@ public class HomeFragmentUser extends Fragment {
         final List<SlideModel> imageList = new ArrayList<>();
         final List<String> bookIdList = new ArrayList<>();
         int count = 0;
+
+        Log.d(TAG, "loadImageSlider: Number of books with thumb: " + pdfs.size()); // Log
+
         for (ListPdf pdf : pdfs) {
             if (pdf.getImageThumb() != null && !pdf.getImageThumb().isEmpty()) {
+                Log.d(TAG, "loadImageSlider: Adding book to slider - ID: " + pdf.getId() + ", Thumb: " + pdf.getImageThumb()); // Log
                 imageList.add(new SlideModel(pdf.getImageThumb(), ScaleTypes.FIT));
                 bookIdList.add(pdf.getId());
                 count++;
                 if (count >= 5) break;
+            } else {
+                Log.w(TAG, "loadImageSlider: Book has no thumbnail - ID: " + pdf.getId()); // Log
             }
         }
         if (!imageList.isEmpty()) {
@@ -157,12 +164,17 @@ public class HomeFragmentUser extends Fragment {
                     }
                 }
             });
+        } else {
+            Log.i(TAG, "loadImageSlider: No images to display in slider."); // Log
         }
     }
 
     private void loadAllBooks() {
         allBooksArrayList.clear();
         ArrayList<ListPdf> list = dbHelper.getAllBooksListPdf();
+
+        Log.d(TAG, "loadAllBooks: Number of all books: " + list.size()); // Log
+
         for (int i = 0; i < Math.min(list.size(), MAX_BOOKS_TO_SHOW); i++) {
             allBooksArrayList.add(list.get(i));
         }
@@ -173,6 +185,9 @@ public class HomeFragmentUser extends Fragment {
         mostDownloadedArrayList.clear();
         ArrayList<ListPdf> list = dbHelper.getAllBooksListPdf();
         Collections.sort(list, (a, b) -> Long.compare(b.getDownloadsCount(), a.getDownloadsCount()));
+
+        Log.d(TAG, "loadMostDownloadedBooks: Number of all books: " + list.size()); // Log
+
         for (int i = 0; i < Math.min(list.size(), MAX_DOWNLOADED_BOOKS); i++) {
             mostDownloadedArrayList.add(list.get(i));
         }

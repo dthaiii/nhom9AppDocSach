@@ -37,16 +37,14 @@ public class AdapterPdfListUser extends RecyclerView.Adapter<AdapterPdfListUser.
     @Override
     public void onBindViewHolder(@NonNull HolderPdfListUser holder, int position) {
         ListPdf modelListPdf = pdfArrayListUser.get(position);
-        String bookId = modelListPdf.getId();
         String title = modelListPdf.getTitle();
         holder.txttitle.setText(title);
 
-        // Nếu bạn không có imageThumb, dùng hàm này để lấy ảnh thumb mặc định hoặc lấy từ url PDF
-        MyApplication.loadImageFromUrl(context, bookId, holder.imageView, holder.progressBar);
+        MyApplication.loadImageFromUrl(context, modelListPdf.getImageThumb(), holder.imageView, holder.progressBar);
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, PdfDetailActivity.class);
-            intent.putExtra("bookId", bookId);
+            intent.putExtra("bookId", modelListPdf.getId());
             context.startActivity(intent);
         });
     }

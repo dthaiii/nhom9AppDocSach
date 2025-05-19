@@ -129,6 +129,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Đọc nhiều nhất"
+                    android:textColor="@color/black"
                     android:layout_marginBottom="10dp"
                     android:textStyle="bold"
                     android:textSize="24sp"/>
@@ -159,6 +160,7 @@
                     android:clipToPadding="false"
                     android:overScrollMode="never"
                     android:paddingBottom="4dp"
+                    android:textColor="@color/black"
                     android:paddingTop="4dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:orientation="vertical"
