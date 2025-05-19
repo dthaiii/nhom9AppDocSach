@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/grey"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -11,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_marginTop="-45dp"
-        android:background="@drawable/bg_book">
+        >
 
         <ImageButton
             android:id="@+id/btnback"
@@ -19,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:layout_marginStart="10dp"
-            android:background="@color/main_color"
+            android:background="@color/grey"
             android:padding="10dp"
             android:layout_alignParentStart="true"
             android:src="@drawable/back"
@@ -28,14 +29,15 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sửa Sách"
-            android:layout_marginTop="5dp"
             android:layout_alignParentBottom="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="44dp"
+            android:gravity="center_horizontal"
             android:paddingBottom="50dp"
-            android:textSize="24sp"
-            android:textStyle="bold"
+            android:text="Sửa Sách"
             android:textColor="@color/black"
-            android:gravity="center_horizontal"/>
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
@@ -146,11 +148,11 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
                 app:cardCornerRadius="10dp">
+
                 <ImageView
                     android:id="@+id/image_thumb"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    />
+                    android:layout_height="200dp" />
             </androidx.cardview.widget.CardView>
 
             <Button
@@ -162,11 +164,12 @@
                 android:layout_marginEnd="30dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button1"
-                android:backgroundTint="@color/main_color"
+                android:backgroundTint="@color/button_color"
+                android:textColor="@color/white"
                 android:text="Sửa"
                 android:textStyle="bold"
                 style="@style/Widget.AppCompat.Button.Borderless"
-                app:backgroundTint="@null"/>
+                />
 
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>

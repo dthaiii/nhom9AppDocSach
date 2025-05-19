@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:background="@color/grey"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activities.PdfListAdminActivity">
@@ -49,8 +50,7 @@
         android:drawableStart="@drawable/sharp_search_24"
         android:padding="10dp"
         android:background="@color/white"
-        android:textColor="@color/black"
-        android:textColorHint="@color/grey"/>
+        android:textColorHint="@color/black"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/Rcvbook"
