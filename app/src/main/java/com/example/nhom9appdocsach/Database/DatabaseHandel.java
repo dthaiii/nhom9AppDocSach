@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class DatabaseHandel extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "Book.db";
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
 
     public DatabaseHandel(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -37,13 +37,16 @@ public class DatabaseHandel extends SQLiteOpenHelper {
                 "timestamp LONG," +
                 "password TEXT" +
                 ")");
+        db.execSQL("INSERT INTO user (uid, email, name, profile, image, usertype, timestamp, password) " +
+                "VALUES (" +
+                "'admin', 'thai@gmail.com', 'Admin', '', '', 'admin', 0, 'thai123')");
         //Book Table
         db.execSQL("CREATE TABLE book (" + " bookId TEXT PRIMARY KEY," +
                 "title TEXT," +
                 "description TEXT," +
                 "url TEXT," +
                 "categoryId TEXT," +
-                "imageThump TEXT," +
+                "imageThumb TEXT," +
                 "lastReadPage INTEGER," +
                 "timestamp LONG," +
                 "viewsCount LONG," +
@@ -64,7 +67,7 @@ public class DatabaseHandel extends SQLiteOpenHelper {
                 ")");
         //Noti table
         db.execSQL("CREATE TABLE noti (" + " id TEXT PRIMARY KEY," +
-                "bookID TEXT," +
+                "bookId TEXT," +
                 "title TEXT," +
                 "message TEXT," +
                 "uid TEXT," +
@@ -125,6 +128,7 @@ public class DatabaseHandel extends SQLiteOpenHelper {
         values.put("image", user.getImage());
         values.put("timestamp", user.getTimestamp());
         values.put("usertype", user.getUsertype());
+        values.put("password", user.getPassword());
         long res = db.insertWithOnConflict("user", null, values, SQLiteDatabase.CONFLICT_REPLACE);
         db.close();
         return res;
@@ -189,7 +193,7 @@ public class DatabaseHandel extends SQLiteOpenHelper {
         values.put("description", book.getDescription());
         values.put("url", book.getUrl());
         values.put("categoryId", book.getCategoryId());
-        values.put("imageThump", book.getImageThump());
+        values.put("imageThumb", book.getImageThump());
         values.put("lastReadPage", book.getLastReadPage());
         values.put("downloadsCount", book.getDownloadsCount());
         long res = db.insertWithOnConflict("book", null, values, SQLiteDatabase.CONFLICT_REPLACE);
@@ -209,7 +213,7 @@ public class DatabaseHandel extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndexOrThrow("description")),
                     cursor.getString(cursor.getColumnIndexOrThrow("url")),
                     cursor.getString(cursor.getColumnIndexOrThrow("categoryId")),
-                    cursor.getString(cursor.getColumnIndexOrThrow("imageThump")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("imageThumb")),
                     cursor.getLong(cursor.getColumnIndexOrThrow("lastReadPage")),
                     cursor.getLong(cursor.getColumnIndexOrThrow("downloadsCount")),
                     cursor.getLong(cursor.getColumnIndexOrThrow("timestamp")),
@@ -234,7 +238,7 @@ public class DatabaseHandel extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndexOrThrow("description")),
                         cursor.getString(cursor.getColumnIndexOrThrow("url")),
                         cursor.getString(cursor.getColumnIndexOrThrow("categoryId")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("imageThump")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("imageThumb")),
                         cursor.getLong(cursor.getColumnIndexOrThrow("lastReadPage")),
                         cursor.getLong(cursor.getColumnIndexOrThrow("downloadsCount")),
                         cursor.getLong(cursor.getColumnIndexOrThrow("timestamp")),
@@ -373,12 +377,12 @@ public class DatabaseHandel extends SQLiteOpenHelper {
     public ArrayList<Noti> getAllNotifications() {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<Noti> list = new ArrayList<>();
-        Cursor cursor = db.rawQuery("SELECT * FROM notification", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM noti", null);
         if (cursor.moveToFirst()) {
             do {
                 list.add(new Noti(
-                        cursor.getString(cursor.getColumnIndexOrThrow("bookId")),
                         cursor.getString(cursor.getColumnIndexOrThrow("id")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("bookId")),
                         cursor.getString(cursor.getColumnIndexOrThrow("message")),
                         cursor.getString(cursor.getColumnIndexOrThrow("uid")),
                         cursor.getString(cursor.getColumnIndexOrThrow("title")),
@@ -393,7 +397,7 @@ public class DatabaseHandel extends SQLiteOpenHelper {
 
     public void deleteNotification(String id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete("notification", "id=?", new String[]{id});
+        db.delete("noti", "id=?", new String[]{id});
         db.close();
     }
 
@@ -401,10 +405,10 @@ public class DatabaseHandel extends SQLiteOpenHelper {
     public long insertFavorite(Favorite fav) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("bookid", fav.getBookId());
+        values.put("bookId", fav.getBookId());
         values.put("uid", fav.getUid());
         values.put("timestamp", fav.getTimestamp());
-        long res = db.insertWithOnConflict("favorites", null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        long res = db.insertWithOnConflict("favorite", null, values, SQLiteDatabase.CONFLICT_REPLACE);
         db.close();
         return res;
     }
@@ -412,7 +416,7 @@ public class DatabaseHandel extends SQLiteOpenHelper {
     public ArrayList<Favorite> getFavoritesByUser(String uid) {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<Favorite> list = new ArrayList<>();
-        Cursor cursor = db.rawQuery("SELECT * FROM favorites WHERE uid=?", new String[]{uid});
+        Cursor cursor = db.rawQuery("SELECT * FROM favorite WHERE uid=?", new String[]{uid});
         if (cursor.moveToFirst()) {
             do {
                 list.add(new Favorite(
@@ -429,7 +433,7 @@ public class DatabaseHandel extends SQLiteOpenHelper {
 
     public void deleteFavorite(String bookid, String uid) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete("favorites", "bookid=? AND uid=?", new String[]{bookid, uid});
+        db.delete("favorite", "bookid=? AND uid=?", new String[]{bookid, uid});
         db.close();
     }
 
@@ -646,9 +650,9 @@ public class DatabaseHandel extends SQLiteOpenHelper {
         ArrayList<Pdf> list = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        // JOIN bảng favorites với bảng pdf để lấy đầy đủ thông tin sách yêu thích
+        // JOIN bảng favorite với bảng pdf để lấy đầy đủ thông tin sách yêu thích
         String query = "SELECT p.* FROM pdf p " +
-                "INNER JOIN favorites f ON p.id = f.bookId " +
+                "INNER JOIN favorite f ON p.id = f.bookId " +
                 "WHERE f.uid = ?";
         Cursor cursor = db.rawQuery(query, new String[]{uid});
         if (cursor.moveToFirst()) {
@@ -680,7 +684,7 @@ public class DatabaseHandel extends SQLiteOpenHelper {
     public void updateUserPassword(String uid, String newPassword) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("profile", newPassword); // Giả sử bạn lưu mật khẩu trong cột "profile" (nên đặt tên là "password" hơn)
+        values.put("password", newPassword); // Giả sử bạn lưu mật khẩu trong cột "profile" (nên đặt tên là "password" hơn)
         db.update("user", values, "uid=?", new String[]{uid});
         db.close();
     }
@@ -710,7 +714,6 @@ public class DatabaseHandel extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         // Xóa user
         int rows = db.delete("user", "uid=?", new String[]{uid});
-        // Nếu muốn xóa thêm comment, favorite, ... liên quan thì thêm code tại đây
         db.close();
         return rows > 0;
     }

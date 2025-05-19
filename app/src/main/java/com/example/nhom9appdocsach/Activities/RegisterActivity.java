@@ -33,12 +33,6 @@ public class RegisterActivity extends AppCompatActivity {
                 validateData();
             }
         });
-//        binding.btnlog.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
     }
 
     private void validateData() {
@@ -75,7 +69,6 @@ public class RegisterActivity extends AppCompatActivity {
         user.setEmail(email);
         user.setName(name);
         user.setPassword(password);
-//        user.setProfileImage("");
         user.setUsertype("user");
         user.setTimestamp(timestamp);
 

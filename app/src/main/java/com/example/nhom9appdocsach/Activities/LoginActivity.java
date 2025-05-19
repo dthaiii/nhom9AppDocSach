@@ -39,17 +39,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
-
-//        binding.txtforgot.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(LoginActivity.this, ForgotPassActivity.class));
-//            }
-//        });
-
-        // Ẩn nút Google và Facebook login nếu có trong layout
-//        binding.btngg.setVisibility(View.GONE);
-//        binding.btnfb.setVisibility(View.GONE);
     }
 
     private void validateData() {
@@ -74,8 +63,8 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        // Giả sử bạn lưu mật khẩu trong trường profile (nên để là password hơn)
-        String passwordInDb = user.getProfile();
+        // Kiểm tra mật khẩu lưu mật khẩu trong trường password
+        String passwordInDb = user.getPassword();
         if (passwordInDb != null && passwordInDb.equals(password)) {
             // Lưu lại uid vào SharedPreferences để giữ đăng nhập sau này
             getSharedPreferences("UserPrefs", MODE_PRIVATE).edit().putString("uid", user.getUid()).apply();
@@ -91,4 +80,5 @@ public class LoginActivity extends AppCompatActivity {
             binding.edtpass.setText("");
         }
     }
+
 }

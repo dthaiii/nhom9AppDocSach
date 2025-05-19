@@ -25,7 +25,6 @@
             android:exported="false" />
         <activity
             android:name=".Activities.FavoriteBookActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".Activities.Profile_Activity"
@@ -41,7 +40,6 @@
             android:exported="false" />
         <activity
             android:name=".Activities.PdfEditActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".Activities.PdfListAdminActivity"
@@ -69,6 +67,7 @@
         </activity>
         <activity
             android:name=".Activities.RegisterActivity"
+            android:theme="@style/Base.Theme.Nhom9AppDocSach."
             android:exported="false" />
         <activity
             android:name=".Activities.MainAdminActivity"

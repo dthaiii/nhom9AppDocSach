@@ -43,6 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbarRLV"
         android:layout_margin="5dp"
+        app:tabTextColor="@color/black"
         android:background="@android:color/transparent"
         app:tabBackground="@drawable/tab_selector"
         app:tabIndicatorFullWidth="false"

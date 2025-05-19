@@ -63,17 +63,13 @@ public class PdfEditActivity extends AppCompatActivity {
     }
 
     private void categoryDialog() {
-        String[] categoriesArray = new String[categoryTitleArraylist.size()];
-        categoryTitleArraylist.toArray(categoriesArray);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Chọn thể loại")
-                .setItems(categoriesArray, (dialog, which) -> {
-                    selectedCategoryId = categoryIdArraylist.get(which);
-                    selectedCategoryTitle = categoryTitleArraylist.get(which);
-                    binding.edttheloai.setText(selectedCategoryTitle);
-                })
-                .show();
+        categoryIdArraylist = new ArrayList<>();
+        categoryTitleArraylist = new ArrayList<>();
+        ArrayList<Category> categories = dbHelper.getAllCategories();
+        for (Category cate : categories) {
+            categoryIdArraylist.add(cate.getId());
+            categoryTitleArraylist.add(cate.getCategory());
+        }
     }
 
     private void loadCategories() {
