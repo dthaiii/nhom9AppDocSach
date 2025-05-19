@@ -137,10 +137,11 @@ public class AddBookActivity extends AppCompatActivity {
                     book.getBookId(),           // id
                     book.getTitle(),            // title
                     book.getUrl(),              // url (file path tới PDF)
-                    "",                         // storageUrl (nếu không dùng, truyền rỗng)
+                    "",                         // storageUrl
                     book.getImageThump(),       // imageThumb (ảnh bìa)
                     0,                          // viewsCount
-                    0                           // downloadsCount
+                    0, // downloadsCount
+                    0
             );
             dbHelper.insertListPdf(listPdf);
 

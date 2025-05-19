@@ -86,7 +86,8 @@ public class DatabaseHandel extends SQLiteOpenHelper {
                 "storageUrl TEXT," +
                 "viewsCount LONG," +
                 "downloadsCount LONG," +
-                "imageThumb TEXT" +
+                "imageThumb TEXT," +
+                "timestamp LONG" +
                 ")");
         // Pdf table
         db.execSQL("CREATE TABLE Pdf (" + " id TEXT PRIMARY KEY," +
@@ -126,7 +127,7 @@ public class DatabaseHandel extends SQLiteOpenHelper {
         values.put("name", user.getName());
         values.put("profile", user.getProfile());
         values.put("image", user.getImage());
-        values.put("timestamp", user.getTimestamp());
+        values.put("timestamp", user.getTimestamp() > 0 ? user.getTimestamp() : System.currentTimeMillis());
         values.put("usertype", user.getUsertype());
         values.put("password", user.getPassword());
         long res = db.insertWithOnConflict("user", null, values, SQLiteDatabase.CONFLICT_REPLACE);
@@ -522,7 +523,8 @@ public class DatabaseHandel extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndexOrThrow("storageUrl")),
                         cursor.getString(cursor.getColumnIndexOrThrow("imageThumb")),
                         cursor.getLong(cursor.getColumnIndexOrThrow("viewsCount")),
-                        cursor.getLong(cursor.getColumnIndexOrThrow("downloadsCount"))
+                        cursor.getLong(cursor.getColumnIndexOrThrow("downloadsCount")),
+                        cursor.getLong(cursor.getColumnIndexOrThrow("timestamp"))
                 );
                 list.add(listPdf);
             } while (cursor.moveToNext());
@@ -598,7 +600,8 @@ public class DatabaseHandel extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndexOrThrow("storageUrl")),
                         cursor.getString(cursor.getColumnIndexOrThrow("imageThumb")),
                         cursor.getLong(cursor.getColumnIndexOrThrow("viewsCount")),
-                        cursor.getLong(cursor.getColumnIndexOrThrow("downloadsCount"))
+                        cursor.getLong(cursor.getColumnIndexOrThrow("downloadsCount")),
+                        cursor.getLong(cursor.getColumnIndexOrThrow("timestamp"))
                 );
                 // Nếu ListPdf có setImageThumb thì set:
                 if (cursor.getColumnIndex("imageThumb") != -1) {
@@ -619,7 +622,8 @@ public class DatabaseHandel extends SQLiteOpenHelper {
     public ArrayList<ListPdf> getAllBooksListPdf() {
         ArrayList<ListPdf> list = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM listPdf", null);
+        // Sắp xếp theo timestamp giảm dần để lấy truyện mới nhất lên đầu
+        Cursor cursor = db.rawQuery("SELECT * FROM listPdf ORDER BY timestamp DESC", null);
         if (cursor.moveToFirst()) {
             do {
                 ListPdf pdf = new ListPdf(
@@ -629,13 +633,13 @@ public class DatabaseHandel extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndexOrThrow("storageUrl")),
                         cursor.getString(cursor.getColumnIndexOrThrow("imageThumb")),
                         cursor.getLong(cursor.getColumnIndexOrThrow("viewsCount")),
-                        cursor.getLong(cursor.getColumnIndexOrThrow("downloadsCount"))
+                        cursor.getLong(cursor.getColumnIndexOrThrow("downloadsCount")),
+                        cursor.getLong(cursor.getColumnIndexOrThrow("timestamp"))
                 );
-                // Nếu ListPdf có setImageThumb thì set:
                 if (cursor.getColumnIndex("imageThumb") != -1) {
                     try {
                         String img = cursor.getString(cursor.getColumnIndexOrThrow("imageThumb"));
-                         pdf.setImageThumb(img);
+                        pdf.setImageThumb(img);
                     } catch (Exception ignore) {}
                 }
                 list.add(pdf);
@@ -773,7 +777,8 @@ public class DatabaseHandel extends SQLiteOpenHelper {
         values.put("imageThumb", listPdf.getImageThumb());
         values.put("viewsCount", listPdf.getViewsCount());
         values.put("downloadsCount", listPdf.getDownloadsCount());
-        long res = db.insertWithOnConflict("book", null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        values.put("timestamp", listPdf.getTimestamp());
+        long res = db.insertWithOnConflict("listPdf", null, values, SQLiteDatabase.CONFLICT_REPLACE);
         db.close();
         return res;
     }

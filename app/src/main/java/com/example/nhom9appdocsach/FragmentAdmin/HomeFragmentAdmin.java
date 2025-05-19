@@ -4,13 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.interfaces.ItemClickListener;
@@ -25,16 +28,13 @@ import com.example.nhom9appdocsach.Model.User;
 import com.example.nhom9appdocsach.databinding.FragmentHomeAdminBinding;
 import com.example.nhom9appdocsach.Database.DatabaseHandel;
 
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class HomeFragmentAdmin extends Fragment {
     private static final String TAG = "HomeFragmentAdmin";
-    private static final int MAX_BOOKS_TO_SHOW = 9;
+    private static final int MAX_BOOKS_TO_SHOW = 20;
     private static final int MAX_DOWNLOADED_BOOKS = 10;
 
     private FragmentHomeAdminBinding binding;
@@ -159,13 +159,12 @@ public class HomeFragmentAdmin extends Fragment {
     }
 
     private void loadAllData() {
-        if (!isAdded() || getContext() == null) return;
-
         isDataLoading = true;
         loadImageSlider();
         loadAllBooks();
         loadMostDownloadedBooks();
         loadCategories();
+        loadUserInfo();
         isDataLoading = false;
     }
 
@@ -175,10 +174,15 @@ public class HomeFragmentAdmin extends Fragment {
             final List<String> bookIdList = new ArrayList<>();
             // Lấy 5 sách đầu tiên có imageThumb
             ArrayList<ListPdf> booksWithThumb = dbHelper.getAllBookWithThumb(5);
+            Log.d(TAG, "loadImageSlider: Number of books with thumb: " + booksWithThumb.size());
+
             for (ListPdf book : booksWithThumb) {
                 if (book.getImageThumb() != null && !book.getImageThumb().isEmpty()) {
+                    Log.d(TAG, "loadImageSlider: Adding book to slider - ID: " + book.getId() + ", Thumb: " + book.getImageThumb());
                     imageList.add(new SlideModel(book.getImageThumb(), ScaleTypes.FIT));
                     bookIdList.add(book.getId());
+                } else {
+                    Log.w(TAG, "loadImageSlider: Book has no thumbnail - ID: " + book.getId());
                 }
             }
             if (!imageList.isEmpty() && binding.imageSlider != null) {
@@ -196,6 +200,8 @@ public class HomeFragmentAdmin extends Fragment {
                         }
                     }
                 });
+            } else {
+                Log.i(TAG, "loadImageSlider: No images to display in slider.");
             }
         } catch (Exception e) {
             Log.e(TAG, "Error loading image slider: " + e.getMessage());
@@ -206,6 +212,9 @@ public class HomeFragmentAdmin extends Fragment {
         try {
             allBooksArrayList.clear();
             ArrayList<ListPdf> all = dbHelper.getAllBooksListPdf();
+            Log.d(TAG, "loadAllBooks: Number of all books: " + all.size());
+            // Đảo ngược danh sách để truyện mới nhất lên đầu
+            Collections.reverse(all);
             for (int i = 0; i < Math.min(MAX_BOOKS_TO_SHOW, all.size()); i++) {
                 allBooksArrayList.add(all.get(i));
             }
@@ -228,6 +237,7 @@ public class HomeFragmentAdmin extends Fragment {
             ArrayList<ListPdf> all = dbHelper.getAllBooksListPdf();
             // Sắp xếp giảm dần theo downloadsCount
             Collections.sort(all, (a, b) -> Long.compare(b.getDownloadsCount(), a.getDownloadsCount()));
+            Log.d(TAG, "loadMostDownloadedBooks: Number of all books: " + all.size());
             for (int i = 0; i < Math.min(MAX_DOWNLOADED_BOOKS, all.size()); i++) {
                 mostDownloadedArrayList.add(all.get(i));
             }
@@ -347,8 +357,8 @@ public class HomeFragmentAdmin extends Fragment {
     private String getCurrentUserId() {
         // Lấy userId từ SharedPreferences hoặc truyền vào Fragment
         // Ví dụ:
-         SharedPreferences prefs = requireContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-         return prefs.getString("uid", null);
+        SharedPreferences prefs = requireContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        return prefs.getString("uid", null);
 //        return null; // <-- bạn cần hiện thực lại chỗ này cho app của bạn!
     }
 }

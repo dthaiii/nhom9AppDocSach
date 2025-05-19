@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -114,6 +115,7 @@ public class MyApplication extends Application {
         if (cursor.moveToFirst()) {
             String imageThumbPath = cursor.getString(0);
             File file = new File(imageThumbPath);
+            Log.d("ThumbnailDebug", "Thumb path: " + imageThumbPath + ", Exists: " + new File(imageThumbPath).exists());
             if (file.exists()) {
                 Glide.with(context)
                         .load(file)

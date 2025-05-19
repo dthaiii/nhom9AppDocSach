@@ -122,6 +122,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginStart="16dp"
+                android:textColor="@color/black"
                 android:layout_marginEnd="16dp"
                 android:gravity="center">
                 <TextView
@@ -132,6 +133,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Đọc nhiều nhất"
+                    android:textColor="@color/black"
                     android:layout_marginBottom="10dp"
                     android:textStyle="bold"
                     android:textSize="24sp"/>
@@ -139,6 +141,7 @@
                 <TextView
                     android:id="@+id/edtdocnhieu"
                     android:layout_width="wrap_content"
+                    android:textColor="@color/black"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="Xem thêm" />
@@ -148,6 +151,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:textColor="@color/black"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/row_pdf_list" />
             <FrameLayout
@@ -159,6 +163,7 @@
                     android:id="@+id/theloaiRCV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
                     android:clipToPadding="false"
                     android:overScrollMode="never"
                     android:paddingBottom="4dp"
