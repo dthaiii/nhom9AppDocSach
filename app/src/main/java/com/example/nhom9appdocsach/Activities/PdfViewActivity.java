@@ -146,16 +146,25 @@ public class PdfViewActivity extends AppCompatActivity {
             } catch (Exception e) {
                 handleError("Lỗi đọc file: " + e.getMessage());
             }
-        } else if (pdfUrl != null && pdfUrl.startsWith("file://")) {
-            // Đọc từ local file path
+        } else if (pdfUrl != null && (pdfUrl.startsWith("file://") || new File(pdfUrl).exists())) {
+            // Đọc từ local file path hoặc file absolute path
             try {
-                File file = new File(Uri.parse(pdfUrl).getPath());
-                loadPdfFromFile(file);
+                File file;
+                if (pdfUrl.startsWith("file://")) {
+                    file = new File(Uri.parse(pdfUrl).getPath());
+                } else {
+                    file = new File(pdfUrl);
+                }
+                if (file.exists()) {
+                    loadPdfFromFile(file);
+                } else {
+                    handleError("File PDF không tồn tại: " + pdfUrl);
+                }
             } catch (Exception e) {
                 handleError("Lỗi đọc file: " + e.getMessage());
             }
         } else {
-            handleError("Đường dẫn tệp PDF không hợp lệ hoặc chưa hỗ trợ.");
+            handleError("Đường dẫn tệp PDF không hợp lệ hoặc chưa hỗ trợ: " + pdfUrl);
         }
     }
 

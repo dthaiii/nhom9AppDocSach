@@ -762,5 +762,20 @@ public class DatabaseHandel extends SQLiteOpenHelper {
         }
         return exists;
     }
+
+    public long insertListPdf(ListPdf listPdf) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("id", listPdf.getId());
+        values.put("title", listPdf.getTitle());
+        values.put("url", listPdf.getUrl());
+        values.put("storageUrl", listPdf.getStorageUrl());
+        values.put("imageThumb", listPdf.getImageThumb());
+        values.put("viewsCount", listPdf.getViewsCount());
+        values.put("downloadsCount", listPdf.getDownloadsCount());
+        long res = db.insertWithOnConflict("book", null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        db.close();
+        return res;
+    }
 }
 

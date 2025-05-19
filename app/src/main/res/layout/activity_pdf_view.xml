@@ -43,19 +43,22 @@
                 android:id="@+id/txtpage"
                 android:layout_below="@+id/txtnamebook"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:text="N/N"
                 android:textSize="14sp"
                 android:textColor="@color/black"
                 android:layout_centerHorizontal="true" />
 
         </RelativeLayout>
-        <com.github.barteksc.pdfviewer.PDFView
+
+    <com.github.barteksc.pdfviewer.PDFView
         android:id="@+id/pdfView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbarRLV" />
-        <ProgressBar
+        android:layout_below="@id/toolbarRLV"
+        android:layout_marginTop="1dp" />
+
+    <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
