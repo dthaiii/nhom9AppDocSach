@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Activities.AddCategoryActivity">
+    tools:context=".Activities.ForgotPassActivity">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="300dp"
@@ -18,7 +18,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:layout_marginLeft="10dp"
-            android:background=""
             android:padding="10dp"
             android:src="@drawable/back" />
 
@@ -48,7 +47,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_text"
-            android:backgroundTint=""
             android:layout_alignParentBottom="true"
             android:paddingBottom="60dp"
             android:drawableStart="@drawable/baseline_email_24"

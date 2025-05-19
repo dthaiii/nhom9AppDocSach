@@ -46,5 +46,9 @@ dependencies {
     implementation(libs.imageSlideshow)
     implementation(libs.android.pdf.viewer)
     implementation("com.google.android.material:material:1.11.0")
+    implementation (libs.glide)
+    implementation(libs.circleimageview)
+
+
 
 }

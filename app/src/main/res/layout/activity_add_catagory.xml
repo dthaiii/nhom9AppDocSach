@@ -18,7 +18,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:layout_marginLeft="10dp"
-            android:background=""
             android:padding="10dp"
             android:src="@drawable/back" />
         <TextView

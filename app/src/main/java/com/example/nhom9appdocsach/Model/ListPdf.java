@@ -1,18 +1,26 @@
 package com.example.nhom9appdocsach.Model;
 
 public class ListPdf {
-    String id, title, url, storageUrl;
+    String id, title, url, storageUrl, imageThumb;
     long viewsCount, downloadsCount;
     public ListPdf() {
 
     }
-    public ListPdf(String id, String title, String url, String storageUrl, long viewsCount, long downloadsCount) {
+    public ListPdf(String id, String title, String url, String storageUrl, String imageThumb, long viewsCount, long downloadsCount) {
         this.id = id;
         this.title = title;
         this.url = url;
         this.storageUrl = storageUrl;
         this.viewsCount = viewsCount;
         this.downloadsCount = downloadsCount;
+    }
+
+    public String getImageThumb() {
+        return imageThumb;
+    }
+
+    public void setImageThumb(String imageThumb) {
+        this.imageThumb = imageThumb;
     }
 
     public String getId() {

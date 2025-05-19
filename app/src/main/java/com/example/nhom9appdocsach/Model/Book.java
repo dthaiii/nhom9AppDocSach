@@ -2,12 +2,12 @@ package com.example.nhom9appdocsach.Model;
 
 public class Book {
     String bookId, title, description, url, categoryId, imageThump;
-    long  downloadsCount;
+    long  downloadsCount, timestamp, viewsCount;
     long lastReadPage;
      public Book(){
 
      }
-     public Book(String bookId, String title, String description, String url, String categoryId, String imageThump, long downloadsCount, long lastReadPage) {
+     public Book(String bookId, String title, String description, String url, String categoryId, String imageThump, long downloadsCount, long timestamp, long viewsCount, long lastReadPage) {
          this.bookId = bookId;
          this.title = title;
          this.description = description;
@@ -15,8 +15,26 @@ public class Book {
          this.categoryId = categoryId;
          this.imageThump = imageThump;
          this.downloadsCount = downloadsCount;
+         this.timestamp = timestamp;
+         this.viewsCount = viewsCount;
          this.lastReadPage = lastReadPage;
      }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public long getViewsCount() {
+        return viewsCount;
+    }
+
+    public void setViewsCount(long viewsCount) {
+        this.viewsCount = viewsCount;
+    }
 
     public String getBookId() {
         return bookId;
