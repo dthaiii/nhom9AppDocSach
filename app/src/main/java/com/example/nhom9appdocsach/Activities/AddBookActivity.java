@@ -20,8 +20,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.example.nhom9appdocsach.Database.DatabaseHandel;
 import com.example.nhom9appdocsach.Model.Book;
+import com.example.nhom9appdocsach.Model.ListPdf;
 import com.example.nhom9appdocsach.Model.Noti;
 import com.example.nhom9appdocsach.Model.Category;
+import com.example.nhom9appdocsach.Model.Pdf;
 import com.example.nhom9appdocsach.databinding.ActivityAddBookBinding;
 
 import java.io.File;
@@ -117,6 +119,30 @@ public class AddBookActivity extends AppCompatActivity {
 
             );
             long res = dbHelper.insertBook(book);
+            Pdf pdf = new Pdf();
+            pdf.setId(book.getBookId());
+            pdf.setUid(getCurrentUserId());
+            pdf.setTitle(book.getTitle());
+            pdf.setDescription(book.getDescription());
+            pdf.setUrl(book.getUrl());
+            pdf.setCategoryId(book.getCategoryId());
+            pdf.setImageThumb(book.getImageThump());
+            pdf.setTimestamp(System.currentTimeMillis());
+            pdf.setViewsCount(0);
+            pdf.setDownloadsCount(0);
+            pdf.setLastReadPage(0);
+            pdf.setFavorite(false);
+            dbHelper.insertPdf(pdf);
+            ListPdf listPdf = new ListPdf(
+                    book.getBookId(),           // id
+                    book.getTitle(),            // title
+                    book.getUrl(),              // url (file path tới PDF)
+                    "",                         // storageUrl (nếu không dùng, truyền rỗng)
+                    book.getImageThump(),       // imageThumb (ảnh bìa)
+                    0,                          // viewsCount
+                    0                           // downloadsCount
+            );
+            dbHelper.insertListPdf(listPdf);
 
             // Tạo thông báo
             String userName = dbHelper.getUserById(getCurrentUserId()).getName();
@@ -140,6 +166,7 @@ public class AddBookActivity extends AppCompatActivity {
             Toast.makeText(this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
+
     }
 
     // Copy file từ Uri về bộ nhớ app, trả về path

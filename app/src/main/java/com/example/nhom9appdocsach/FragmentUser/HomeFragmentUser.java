@@ -31,7 +31,7 @@ import java.util.List;
 
 public class HomeFragmentUser extends Fragment {
     private static final String TAG = "HomeFragmentUser";
-    private static final int MAX_BOOKS_TO_SHOW = 9;
+    private static final int MAX_BOOKS_TO_SHOW = 20;
     private static final int MAX_DOWNLOADED_BOOKS = 10;
 
     private FragmentHomeUserBinding binding;
