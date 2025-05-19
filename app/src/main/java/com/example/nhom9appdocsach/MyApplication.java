@@ -33,7 +33,6 @@ import java.util.Locale;
 
 public class MyApplication extends Application {
 
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -49,17 +48,17 @@ public class MyApplication extends Application {
     public static void deleteBook(Context context, String bookId, String bookUrl, String bookTitle) {
         DatabaseHandel dbHelper = new DatabaseHandel(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        db.delete("Books", "bookId=?", new String[]{bookId});
-        db.delete("Favorites", "bookId=?", new String[]{bookId});
+        db.delete("book", "bookId=?", new String[]{bookId});
+        db.delete("favorite", "bookId=?", new String[]{bookId});
         db.close();
         Toast.makeText(context, "Xóa sách thành công", Toast.LENGTH_SHORT).show();
     }
 
     // Hiển thị kích thước file PDF
-    public static void LoadPdfSize(Context context, String url,  String bookId, TextView txtsize) {
+    public static void LoadPdfSize(Context context, String url, String bookId, TextView txtsize) {
         DatabaseHandel dbHelper = new DatabaseHandel(context);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT pdfPath FROM Books WHERE bookId=?", new String[]{bookId});
+        Cursor cursor = db.rawQuery("SELECT url FROM book WHERE bookId=?", new String[]{bookId});
         if (cursor.moveToFirst()) {
             String pdfPath = cursor.getString(0);
             File file = new File(pdfPath);
@@ -82,7 +81,7 @@ public class MyApplication extends Application {
     public static void loadPdfFromUrlSinglePage(Context context, String bookId, PDFView pdfView, ProgressBar progressBar, TextView txtpage) {
         DatabaseHandel dbHelper = new DatabaseHandel(context);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT pdfPath FROM Books WHERE bookId=?", new String[]{bookId});
+        Cursor cursor = db.rawQuery("SELECT url FROM book WHERE bookId=?", new String[]{bookId});
         if (cursor.moveToFirst()) {
             String pdfPath = cursor.getString(0);
             File file = new File(pdfPath);
@@ -111,7 +110,7 @@ public class MyApplication extends Application {
     public static void loadImageFromUrl(Context context, String bookId, ImageView imageView, ProgressBar progressBar) {
         DatabaseHandel dbHelper = new DatabaseHandel(context);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT thumbPath FROM Books WHERE bookId=?", new String[]{bookId});
+        Cursor cursor = db.rawQuery("SELECT imageThumb FROM book WHERE bookId=?", new String[]{bookId});
         if (cursor.moveToFirst()) {
             String imageThumbPath = cursor.getString(0);
             File file = new File(imageThumbPath);
@@ -143,10 +142,11 @@ public class MyApplication extends Application {
     }
 
     // Hiển thị tên thể loại
-    public static void loadCategory(Context context ,String categoryId, TextView txttheloai) {
+    public static void loadCategory(Context context, String categoryId, TextView txttheloai) {
         DatabaseHandel dbHelper = new DatabaseHandel(context);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT category FROM Categories WHERE categoryId=?", new String[]{categoryId});
+        // Lưu ý: bảng là "category", id là "id"
+        Cursor cursor = db.rawQuery("SELECT category FROM category WHERE id=?", new String[]{categoryId});
         if (cursor.moveToFirst()) {
             txttheloai.setText(cursor.getString(0));
         }
@@ -155,10 +155,10 @@ public class MyApplication extends Application {
     }
 
     // Tăng số lượt xem sách
-    public static void incrementBookViewCount( Context context, String bookId) {
+    public static void incrementBookViewCount(Context context, String bookId) {
         DatabaseHandel dbHelper = new DatabaseHandel(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT viewsCount FROM Books WHERE bookId=?", new String[]{bookId});
+        Cursor cursor = db.rawQuery("SELECT viewsCount FROM book WHERE bookId=?", new String[]{bookId});
         long views = 0;
         if (cursor.moveToFirst()) {
             views = cursor.getLong(0);
@@ -167,7 +167,7 @@ public class MyApplication extends Application {
         views++;
         ContentValues values = new ContentValues();
         values.put("viewsCount", views);
-        db.update("Books", values, "bookId=?", new String[]{bookId});
+        db.update("book", values, "bookId=?", new String[]{bookId});
         db.close();
     }
 
@@ -201,7 +201,7 @@ public class MyApplication extends Application {
     private static void incrementBookDownloadCount(Context context, String bookId) {
         DatabaseHandel dbHelper = new DatabaseHandel(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT downloadsCount FROM Books WHERE bookId=?", new String[]{bookId});
+        Cursor cursor = db.rawQuery("SELECT downloadsCount FROM book WHERE bookId=?", new String[]{bookId});
         long downloads = 0;
         if (cursor.moveToFirst()) {
             downloads = cursor.getLong(0);
@@ -210,27 +210,28 @@ public class MyApplication extends Application {
         downloads++;
         ContentValues values = new ContentValues();
         values.put("downloadsCount", downloads);
-        db.update("Books", values, "bookId=?", new String[]{bookId});
+        db.update("book", values, "bookId=?", new String[]{bookId});
         db.close();
     }
 
     // Thêm sách vào yêu thích
-    public static void addToFavorite(Context context, String bookId) {
+    public static void addToFavorite(Context context, String bookId, String uid) {
         DatabaseHandel dbHelper = new DatabaseHandel(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("bookId", bookId);
+        values.put("uid", uid);
         values.put("timestamp", System.currentTimeMillis());
-        db.insertWithOnConflict("Favorites", null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        db.insertWithOnConflict("favorite", null, values, SQLiteDatabase.CONFLICT_REPLACE);
         db.close();
         Toast.makeText(context, "Yêu thích", Toast.LENGTH_SHORT).show();
     }
 
     // Xóa sách khỏi yêu thích
-    public static void removeFromFavorite(Context context, String bookId) {
+    public static void removeFromFavorite(Context context, String bookId, String uid) {
         DatabaseHandel dbHelper = new DatabaseHandel(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        db.delete("Favorites", "bookId=?", new String[]{bookId});
+        db.delete("favorite", "bookId=? AND uid=?", new String[]{bookId, uid});
         db.close();
         Toast.makeText(context, "Xóa yêu thích", Toast.LENGTH_SHORT).show();
     }

@@ -50,6 +50,7 @@
         android:drawableStart="@drawable/sharp_search_24"
         android:padding="10dp"
         android:background="@color/white"
+        android:textColor="@color/black"
         android:textColorHint="@color/black"/>
 
     <androidx.recyclerview.widget.RecyclerView

@@ -39,7 +39,7 @@ public class DatabaseHandel extends SQLiteOpenHelper {
                 ")");
         db.execSQL("INSERT INTO user (uid, email, name, profile, image, usertype, timestamp, password) " +
                 "VALUES (" +
-                "'admin', 'thai@gmail.com', 'Admin', '', '', 'admin', 0, 'thai123')");
+                "'admin', 'thai@gmail.com', 'Thái', '', '', 'admin', 0, 'thai123')");
         //Book Table
         db.execSQL("CREATE TABLE book (" + " bookId TEXT PRIMARY KEY," +
                 "title TEXT," +
@@ -489,7 +489,7 @@ public class DatabaseHandel extends SQLiteOpenHelper {
     public void updateBooksCategory(String oldCategoryId, String newCategoryId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("categoryId", newCategoryId);
+        values.put("id", newCategoryId);
         db.update("pdf", values, "categoryId=?", new String[]{oldCategoryId});
         db.update("book", values, "categoryId=?", new String[]{oldCategoryId});
         db.close();

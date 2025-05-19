@@ -20,11 +20,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Tiêu đề thông báo"
+            android:textColor="@color/black"
             android:textStyle="bold"/>
         <TextView
             android:id="@+id/messageTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:layout_below="@id/titleTv"
             android:layout_marginTop="5dp"
             android:text="Nội dung thông báo"/>
@@ -32,6 +34,7 @@
         <TextView
             android:id="@+id/timeTv"
             android:layout_width="wrap_content"
+            android:textColor="@color/black"
             android:layout_height="wrap_content"
             android:layout_below="@id/messageTv"
             android:layout_marginTop="5dp"

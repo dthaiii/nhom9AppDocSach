@@ -25,7 +25,6 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         dbHelper = new DatabaseHandel(this);
-
         binding.btnlog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

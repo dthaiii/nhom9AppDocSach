@@ -23,7 +23,7 @@ import com.example.nhom9appdocsach.Model.Pdf;
 import com.example.nhom9appdocsach.MyApplication;
 import com.example.nhom9appdocsach.R;
 import com.example.nhom9appdocsach.databinding.RowPdfFavoriteBinding;
-import com.example.nhom9appdocsach.Database.DatabaseHandel; // Thêm dòng này
+import com.example.nhom9appdocsach.Database.DatabaseHandel;
 
 import java.util.ArrayList;
 
@@ -34,11 +34,15 @@ public class AdapterFavoriteBook extends RecyclerView.Adapter<AdapterFavoriteBoo
     private RowPdfFavoriteBinding binding;
     private static final String TAG = "FAV_BOOK_TAG";
     private FilterFavorite filterFavorite;
+    private String uid;
 
     public AdapterFavoriteBook(Context context, ArrayList<Pdf> pdfArrayList) {
         this.context = context;
         this.pdfArrayList = pdfArrayList;
         this.filterList = pdfArrayList;
+
+        // Lấy uid từ SharedPreferences
+        uid = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE).getString("uid", null);
     }
 
     @NonNull
@@ -58,7 +62,11 @@ public class AdapterFavoriteBook extends RecyclerView.Adapter<AdapterFavoriteBoo
             context.startActivity(intent);
         });
         holder.btnfavor.setOnClickListener(v -> {
-            MyApplication.removeFromFavorite(context, modelPdf.getId());
+            MyApplication.removeFromFavorite(context, modelPdf.getId(), uid);
+            // Cập nhật lại giao diện sau khi xóa khỏi yêu thích
+            pdfArrayList.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, pdfArrayList.size());
         });
     }
 
@@ -80,10 +88,9 @@ public class AdapterFavoriteBook extends RecyclerView.Adapter<AdapterFavoriteBoo
 
             String date = MyApplication.formatTimestamp(dbPdf.getTimestamp());
 
-            MyApplication.loadCategory(context ,dbPdf.getCategoryId(), holder.txttheloai);
-            // Nếu muốn load PDF từ URL, bạn bổ sung lại hàm loadPdfFromUrlSinglePage
-            MyApplication.loadImageFromUrl(context,"" + bookId, holder.imageThumb, holder.progressBar);
-            MyApplication.LoadPdfSize(context,"" + dbPdf.getUrl(), "" + dbPdf.getTitle(), holder.txtsize);
+            MyApplication.loadCategory(context, dbPdf.getCategoryId(), holder.txttheloai);
+            MyApplication.loadImageFromUrl(context, bookId, holder.imageThumb, holder.progressBar);
+            MyApplication.LoadPdfSize(context, dbPdf.getUrl(), bookId, holder.txtsize);
 
             holder.txttitle.setText(dbPdf.getTitle());
             holder.txtdes.setText(dbPdf.getDescription());

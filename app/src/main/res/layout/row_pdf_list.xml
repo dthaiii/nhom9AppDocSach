@@ -51,6 +51,7 @@
         android:padding="5dp"
         android:layout_below="@+id/bookRL"
         android:text="truyen tranh"
+        android:textColor="@color/black"
         android:textSize="14sp"
         style="@style/TextColorBlack"
         android:maxLines="2"
