@@ -130,42 +130,45 @@ public class HomeFragmentUser extends Fragment {
     }
 
     private void loadImageSlider() {
-        // Lấy danh sách ListPdf có ảnh thumbnail, giới hạn 5-8 cuốn
-        List<ListPdf> pdfs = dbHelper.getAllBookWithThumb(8);
-        final List<SlideModel> imageList = new ArrayList<>();
-        final List<String> bookIdList = new ArrayList<>();
-        int count = 0;
-
-        Log.d(TAG, "loadImageSlider: Number of books with thumb: " + pdfs.size()); // Log
-
-        for (ListPdf pdf : pdfs) {
-            if (pdf.getImageThumb() != null && !pdf.getImageThumb().isEmpty()) {
-                Log.d(TAG, "loadImageSlider: Adding book to slider - ID: " + pdf.getId() + ", Thumb: " + pdf.getImageThumb()); // Log
-                imageList.add(new SlideModel(pdf.getImageThumb(), ScaleTypes.FIT));
-                bookIdList.add(pdf.getId());
-                count++;
-                if (count >= 5) break;
-            } else {
-                Log.w(TAG, "loadImageSlider: Book has no thumbnail - ID: " + pdf.getId()); // Log
-            }
-        }
-        if (!imageList.isEmpty()) {
-            binding.imageSlider.setImageList(imageList, ScaleTypes.FIT);
-            binding.imageSlider.setItemClickListener(new ItemClickListener() {
-                @Override
-                public void doubleClick(int i) { }
-                @Override
-                public void onItemSelected(int position) {
-                    if (position < bookIdList.size()) {
-                        String bookId = bookIdList.get(position);
-                        Intent intent = new Intent(requireActivity(), PdfDetailActivity.class);
-                        intent.putExtra("bookId", bookId);
-                        startActivity(intent);
+        try {
+            List<ListPdf> booksWithThumb = dbHelper.getAllBookWithThumb(5);
+            final List<SlideModel> imageList = new ArrayList<>();
+            final List<String> bookIdList = new ArrayList<>();
+            // Lấy 5 sách đầu tiên có imageThumb
+            int count = 0;
+            for (ListPdf book : booksWithThumb) {
+                String imgPath = book.getImageThumb();
+                if (imgPath != null && !imgPath.isEmpty()){
+                    String urlString = imgPath.startsWith("file://")
+                            ? imgPath : "file://" + imgPath;
+                    imageList.add(new SlideModel(urlString, ScaleTypes.FIT));
+                    bookIdList.add(book.getId());
+                    count++;
+                    if( count >= 5) {
+                        break; // Chỉ lấy 5 sách
                     }
                 }
-            });
-        } else {
-            Log.i(TAG, "loadImageSlider: No images to display in slider."); // Log
+            }
+            if (!imageList.isEmpty() && binding.imageSlider != null) {
+                binding.imageSlider.setImageList(imageList, ScaleTypes.FIT);
+                binding.imageSlider.setItemClickListener(new ItemClickListener() {
+                    @Override
+                    public void doubleClick(int i) { }
+                    @Override
+                    public void onItemSelected(int position) {
+                        if (position < bookIdList.size()) {
+                            String bookId = bookIdList.get(position);
+                            Intent intent = new Intent(requireActivity(), PdfDetailActivity.class);
+                            intent.putExtra("bookId", bookId);
+                            startActivity(intent);
+                        }
+                    }
+                });
+            } else {
+                Log.i(TAG, "loadImageSlider: No images to display in slider.");
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error loading image slider: " + e.getMessage());
         }
     }
 

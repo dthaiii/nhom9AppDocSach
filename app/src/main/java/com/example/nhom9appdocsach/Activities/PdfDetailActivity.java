@@ -29,7 +29,7 @@ public class PdfDetailActivity extends AppCompatActivity {
     private static final String TAG_DOWNLOAD = "DOWNLOAD_TAG";
     private ActivityPdfDetailBinding binding;
     String bookId, bookTitle, bookUrl;
-    long        timestamp;
+    long timestamp;
     boolean isInMyFavorite = false;
     private boolean isDataLoading = false;
     private boolean isAdded = false;
