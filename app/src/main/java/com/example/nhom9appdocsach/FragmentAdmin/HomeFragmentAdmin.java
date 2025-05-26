@@ -170,19 +170,22 @@ public class HomeFragmentAdmin extends Fragment {
 
     private void loadImageSlider() {
         try {
+            List<ListPdf> booksWithThumb = dbHelper.getAllBookWithThumb(5);
             final List<SlideModel> imageList = new ArrayList<>();
             final List<String> bookIdList = new ArrayList<>();
             // Lấy 5 sách đầu tiên có imageThumb
-            ArrayList<ListPdf> booksWithThumb = dbHelper.getAllBookWithThumb(5);
-            Log.d(TAG, "loadImageSlider: Number of books with thumb: " + booksWithThumb.size());
-
+            int count = 0;
             for (ListPdf book : booksWithThumb) {
-                if (book.getImageThumb() != null && !book.getImageThumb().isEmpty()) {
-                    Log.d(TAG, "loadImageSlider: Adding book to slider - ID: " + book.getId() + ", Thumb: " + book.getImageThumb());
-                    imageList.add(new SlideModel(book.getImageThumb(), ScaleTypes.FIT));
+                String imgPath = book.getImageThumb();
+                if (imgPath != null && !imgPath.isEmpty()){
+                    String urlString = imgPath.startsWith("file://")
+                    ? imgPath : "file://" + imgPath;
+                    imageList.add(new SlideModel(urlString, ScaleTypes.FIT));
                     bookIdList.add(book.getId());
-                } else {
-                    Log.w(TAG, "loadImageSlider: Book has no thumbnail - ID: " + book.getId());
+                    count++;
+                    if( count >= 5) {
+                        break; // Chỉ lấy 5 sách
+                    }
                 }
             }
             if (!imageList.isEmpty() && binding.imageSlider != null) {
@@ -205,6 +208,20 @@ public class HomeFragmentAdmin extends Fragment {
             }
         } catch (Exception e) {
             Log.e(TAG, "Error loading image slider: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (getContext() == null || binding == null) return;
+
+        try {
+            binding.booksRCV.setAdapter(adapterPdfListUser);
+            binding.downloadRCV.setAdapter(new AdapterPdfListUser(getContext(), mostDownloadedArrayList));
+            binding.theloaiRCV.setAdapter(categoryAdapter);
+        } catch (Exception e) {
+            Log.e(TAG, "Error setting adapters: " + e.getMessage());
         }
     }
 
@@ -356,9 +373,8 @@ public class HomeFragmentAdmin extends Fragment {
 
     private String getCurrentUserId() {
         // Lấy userId từ SharedPreferences hoặc truyền vào Fragment
-        // Ví dụ:
         SharedPreferences prefs = requireContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         return prefs.getString("uid", null);
-//        return null; // <-- bạn cần hiện thực lại chỗ này cho app của bạn!
+//        return null; //
     }
 }

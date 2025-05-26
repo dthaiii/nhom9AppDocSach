@@ -39,7 +39,7 @@ public class DatabaseHandel extends SQLiteOpenHelper {
                 ")");
         db.execSQL("INSERT INTO user (uid, email, name, profile, image, usertype, timestamp, password) " +
                 "VALUES (" +
-                "'admin', 'thai@gmail.com', 'Thái', '', '', 'admin', 0, 'thai123')");
+                "'admin', 'thai@gmail.com', 'Thái', '', '', 'admin', 0 , 'thai123')");
         //Book Table
         db.execSQL("CREATE TABLE book (" + " bookId TEXT PRIMARY KEY," +
                 "title TEXT," +
@@ -603,7 +603,6 @@ public class DatabaseHandel extends SQLiteOpenHelper {
                         cursor.getLong(cursor.getColumnIndexOrThrow("downloadsCount")),
                         cursor.getLong(cursor.getColumnIndexOrThrow("timestamp"))
                 );
-                // Nếu ListPdf có setImageThumb thì set:
                 if (cursor.getColumnIndex("imageThumb") != -1) {
                     try {
                         String img = cursor.getString(cursor.getColumnIndexOrThrow("imageThumb"));

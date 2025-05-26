@@ -141,7 +141,7 @@ public class AddBookActivity extends AppCompatActivity {
                     book.getImageThump(),       // imageThumb (ảnh bìa)
                     0,                          // viewsCount
                     0, // downloadsCount
-                    0
+                    timestamp
             );
             dbHelper.insertListPdf(listPdf);
 
@@ -170,7 +170,7 @@ public class AddBookActivity extends AppCompatActivity {
 
     }
 
-    // Copy file từ Uri về bộ nhớ app, trả về path
+    // Copy file từ Url về bộ nhớ app, trả về path
     private String copyUriToInternalStorage(Uri uri, String fileName) throws Exception {
         InputStream inputStream = getContentResolver().openInputStream(uri);
         File file = new File(getFilesDir(), fileName);
@@ -185,7 +185,7 @@ public class AddBookActivity extends AppCompatActivity {
         return file.getAbsolutePath();
     }
 
-    // Lấy userId hiện tại (ví dụ dùng SharedPreferences)
+    // Lấy userId hiện tại
     private String getCurrentUserId() {
         return getSharedPreferences("UserPrefs", MODE_PRIVATE).getString("uid", "");
     }
