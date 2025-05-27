@@ -112,8 +112,7 @@ public class AddBookActivity extends AppCompatActivity {
                     selectedCategoryID,
                     imagePath,
                     0,
-                    // lastReadPage
-                    0,  // downloadsCount
+                    timestamp,
                     0,
                     0
 

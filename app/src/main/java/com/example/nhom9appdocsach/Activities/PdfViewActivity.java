@@ -52,7 +52,6 @@ public class PdfViewActivity extends AppCompatActivity {
         pdfView = binding.pdfView;
         binding.txtnamebook.setSelected(true);
 
-        // Restore state if available
         if (savedInstanceState != null) {
             lastReadPage = savedInstanceState.getInt("lastReadPage", 0);
             bookId = savedInstanceState.getString("bookId");
@@ -268,11 +267,11 @@ public class PdfViewActivity extends AppCompatActivity {
     }
 
     private void saveLastReadPage() {
-        if (pdfView != null && pdfView.getCurrentPage() >= 0 && currentPdf != null) {
-            dbHelper.updateLastReadPage(bookId, pdfView.getCurrentPage());
+        if (pdfView != null && currentPdf != null){
+            int cur = pdfView.getCurrentPage();
+            dbHelper.updateLastReadPage(bookId, cur);
         }
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
