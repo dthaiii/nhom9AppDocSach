@@ -341,8 +341,8 @@ public class DatabaseHandel extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 list.add(new Comment(
-                        cursor.getString(cursor.getColumnIndexOrThrow("bookId")),
                         cursor.getString(cursor.getColumnIndexOrThrow("id")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("bookId")),
                         cursor.getString(cursor.getColumnIndexOrThrow("comment")),
                         cursor.getString(cursor.getColumnIndexOrThrow("uid")),
                         cursor.getLong(cursor.getColumnIndexOrThrow("timestamp"))

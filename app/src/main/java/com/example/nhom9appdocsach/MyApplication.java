@@ -147,7 +147,7 @@ public class MyApplication extends Application {
     public static void loadCategory(Context context, String categoryId, TextView txttheloai) {
         DatabaseHandel dbHelper = new DatabaseHandel(context);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        // Lưu ý: bảng là "category", id là "id"
+        //  bảng catagory có cột id và category(tên thể loại)
         Cursor cursor = db.rawQuery("SELECT category FROM category WHERE id=?", new String[]{categoryId});
         if (cursor.moveToFirst()) {
             txttheloai.setText(cursor.getString(0));
@@ -175,28 +175,30 @@ public class MyApplication extends Application {
 
     // Tải file PDF về máy (copy file local sang thư mục Download)
     public static void downloadBook(Context context, String bookId, String bookTitle, String sourcePath) {
-        try {
-            File src = new File(sourcePath);
-            File dst = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), bookTitle + ".pdf");
-            // Copy file (Android 8 trở lên)
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                Files.copy(src.toPath(), dst.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            } else {
-                FileInputStream in = new FileInputStream(src);
-                FileOutputStream out = new FileOutputStream(dst);
-                byte[] buffer = new byte[1024];
-                int len;
-                while ((len = in.read(buffer)) > 0) {
-                    out.write(buffer, 0, len);
-                }
-                in.close();
-                out.close();
-            }
-            Toast.makeText(context, "Tải về máy thành công", Toast.LENGTH_SHORT).show();
-            incrementBookDownloadCount(context, bookId);
-        } catch (Exception e) {
-            Toast.makeText(context, "Tải xuống thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        File src = new File(sourcePath);
+        if (!src.exists()){
+            Toast.makeText(context, "File không tồn tại", Toast.LENGTH_SHORT).show();
+            return;
         }
+        File dst = new File(Environment.getExternalStoragePublicDirectory
+                (Environment.DIRECTORY_DOWNLOADS), bookTitle + ".pdf");
+        try{
+            FileInputStream in = new FileInputStream(src);
+            FileOutputStream out = new FileOutputStream(dst);
+            byte[] buffer = new byte[1024];
+            int len;
+            while((len = in.read(buffer)) > 0){
+                out.write(buffer, 0, len);
+            }
+            in.close();
+            out.close();
+            Toast.makeText(context, "Tải sách thành công: " + bookTitle, Toast.LENGTH_SHORT).show();
+            incrementBookDownloadCount(context, bookId);
+        } catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(context, "Lỗi khi tải sách: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     // Tăng số lượt tải sách

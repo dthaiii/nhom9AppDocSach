@@ -67,8 +67,8 @@ public class CommentActivity extends AppCompatActivity {
         String commentId = String.valueOf(timestamp);
 
         Comment comment = new Comment(
-                bookId,
                 commentId,
+                bookId,
                 commentText,
                 uid,
                 timestamp
