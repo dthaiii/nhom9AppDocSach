@@ -159,7 +159,7 @@ public class AccFragmentUser extends Fragment {
                         return;
                     }
                     // Kiểm tra mật khẩu
-                    if (!password.equals(user.getProfile())) { // Nếu trường password là getProfile()
+                    if (!password.equals(user.getPassword())) {
                         Toast.makeText(requireContext(), "Mật khẩu không đúng", Toast.LENGTH_SHORT).show();
                         return;
                     }
