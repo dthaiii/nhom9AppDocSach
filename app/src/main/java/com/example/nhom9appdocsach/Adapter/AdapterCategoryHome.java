@@ -53,7 +53,6 @@ public class AdapterCategoryHome extends RecyclerView.Adapter<AdapterCategoryHom
         loadBooksInCategory(id, holder.binding.theloaiRCV);
     }
 
-    // Sử dụng SQLite thay
     private void loadBooksInCategory(String categoryId, RecyclerView recyclerView) {
         DatabaseHandel dbHelper = new DatabaseHandel(context);
         ArrayList<ListPdf> booksList = dbHelper.getBooksByCategoryId(categoryId);

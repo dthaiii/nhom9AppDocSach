@@ -19,7 +19,6 @@ import com.example.nhom9appdocsach.databinding.RowCommentBinding;
 
 import java.util.ArrayList;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AdapterComment extends RecyclerView.Adapter<AdapterComment.HolderComment> {
 
@@ -106,12 +105,10 @@ public class AdapterComment extends RecyclerView.Adapter<AdapterComment.HolderCo
     }
 
     class HolderComment extends RecyclerView.ViewHolder {
-//        CircleImageView imagecomment;
         TextView txtname, txtdate, txtcomment;
 
         public HolderComment(@NonNull android.view.View itemView) {
             super(itemView);
-//            imagecomment = binding.imagecomment;
             txtname = binding.txtname;
             txtdate = binding.txtdate;
             txtcomment = binding.txtcomment;

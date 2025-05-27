@@ -195,6 +195,8 @@ public class DatabaseHandel extends SQLiteOpenHelper {
         values.put("url", book.getUrl());
         values.put("categoryId", book.getCategoryId());
         values.put("imageThumb", book.getImageThump());
+        values.put("timestamp", book.getTimestamp());
+        values.put("viewsCount", book.getViewsCount());
         values.put("lastReadPage", book.getLastReadPage());
         values.put("downloadsCount", book.getDownloadsCount());
         long res = db.insertWithOnConflict("book", null, values, SQLiteDatabase.CONFLICT_REPLACE);
@@ -257,15 +259,6 @@ public class DatabaseHandel extends SQLiteOpenHelper {
         db.delete("book", "bookId=?", new String[]{bookId});
         db.close();
     }
-
-    public void updateLastReadPage(String bookId, long lastReadPage) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("lastReadPage", lastReadPage);
-        db.update("book", values, "bookId=?", new String[]{bookId});
-        db.close();
-    }
-
     // Category crud
     public long insertCategory(Category category) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -341,8 +334,8 @@ public class DatabaseHandel extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 list.add(new Comment(
-                        cursor.getString(cursor.getColumnIndexOrThrow("bookId")),
                         cursor.getString(cursor.getColumnIndexOrThrow("id")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("bookId")),
                         cursor.getString(cursor.getColumnIndexOrThrow("comment")),
                         cursor.getString(cursor.getColumnIndexOrThrow("uid")),
                         cursor.getLong(cursor.getColumnIndexOrThrow("timestamp"))
@@ -781,5 +774,13 @@ public class DatabaseHandel extends SQLiteOpenHelper {
         db.close();
         return res;
     }
+    public void updateLastReadPage(String bookId, long lastReadPage){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("lastReadPage", lastReadPage);
+        db.update("pdf", values, "id=?", new String[]{bookId});
+        db.close();
+    }
+
 }
 
