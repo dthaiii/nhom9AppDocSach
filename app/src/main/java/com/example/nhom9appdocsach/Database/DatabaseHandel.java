@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class DatabaseHandel extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "Book.db";
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
 
     public DatabaseHandel(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -217,10 +217,10 @@ public class DatabaseHandel extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndexOrThrow("url")),
                     cursor.getString(cursor.getColumnIndexOrThrow("categoryId")),
                     cursor.getString(cursor.getColumnIndexOrThrow("imageThumb")),
-                    cursor.getLong(cursor.getColumnIndexOrThrow("lastReadPage")),
                     cursor.getLong(cursor.getColumnIndexOrThrow("downloadsCount")),
                     cursor.getLong(cursor.getColumnIndexOrThrow("timestamp")),
-                    cursor.getLong(cursor.getColumnIndexOrThrow("viewsCount"))
+                    cursor.getLong(cursor.getColumnIndexOrThrow("viewsCount")),
+                    cursor.getLong(cursor.getColumnIndexOrThrow("lastReadPage"))
             );
         }
         cursor.close();
@@ -242,10 +242,10 @@ public class DatabaseHandel extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndexOrThrow("url")),
                         cursor.getString(cursor.getColumnIndexOrThrow("categoryId")),
                         cursor.getString(cursor.getColumnIndexOrThrow("imageThumb")),
-                        cursor.getLong(cursor.getColumnIndexOrThrow("lastReadPage")),
                         cursor.getLong(cursor.getColumnIndexOrThrow("downloadsCount")),
                         cursor.getLong(cursor.getColumnIndexOrThrow("timestamp")),
-                        cursor.getLong(cursor.getColumnIndexOrThrow("viewsCount"))
+                        cursor.getLong(cursor.getColumnIndexOrThrow("viewsCount")),
+                        cursor.getLong(cursor.getColumnIndexOrThrow("lastReadPage"))
                 ));
             } while (cursor.moveToNext());
         }
@@ -483,7 +483,7 @@ public class DatabaseHandel extends SQLiteOpenHelper {
     public void updateBooksCategory(String oldCategoryId, String newCategoryId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("id", newCategoryId);
+        values.put("categoryId", newCategoryId);
         db.update("pdf", values, "categoryId=?", new String[]{oldCategoryId});
         db.update("book", values, "categoryId=?", new String[]{oldCategoryId});
         db.close();
@@ -579,7 +579,6 @@ public class DatabaseHandel extends SQLiteOpenHelper {
     public ArrayList<ListPdf> getAllBookWithThumb(int limit) {
         ArrayList<ListPdf> list = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        // Nếu có cột imageThumb trong listPdf thì dùng, nếu không có thì bỏ điều kiện này
         Cursor cursor = db.rawQuery(
                 "SELECT * FROM listPdf WHERE imageThumb IS NOT NULL AND imageThumb != '' LIMIT ?",
                 new String[]{String.valueOf(limit)}
@@ -609,7 +608,6 @@ public class DatabaseHandel extends SQLiteOpenHelper {
         db.close();
         return list;
     }
-
     // Lấy toàn bộ sách listPdf
     public ArrayList<ListPdf> getAllBooksListPdf() {
         ArrayList<ListPdf> list = new ArrayList<>();

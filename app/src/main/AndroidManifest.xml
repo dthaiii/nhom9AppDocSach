@@ -67,7 +67,7 @@
         </activity>
         <activity
             android:name=".Activities.RegisterActivity"
-            android:theme="@style/Base.Theme.Nhom9AppDocSach."
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".Activities.MainAdminActivity"

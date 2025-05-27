@@ -272,6 +272,7 @@ public class PdfViewActivity extends AppCompatActivity {
             dbHelper.updateLastReadPage(bookId, cur);
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
